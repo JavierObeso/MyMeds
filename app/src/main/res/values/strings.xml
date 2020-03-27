@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyMeds</string>
+    <string name="perdido_medicamento">¡Hoy has perdido uno de tus medicamentos!</string>
 </resources>
