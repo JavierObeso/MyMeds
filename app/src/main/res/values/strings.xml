@@ -7,13 +7,14 @@
     <string name="medium">sans-serif-medium</string>
     <string name="regular">sans-serif</string>
     <string name="inicio">INICIO</string>
+    <string name="registro">REGISTRO</string>
     <string name="usuario">Usuario</string>
     <string name="constrasena">Contraseña</string>
+    <string name="confirmarContrasenia">Confirmar contraseña</string>
     <string name="iniciarsesion">Iniciar sesión</string>
     <string name="registrarme">Registrarme</string>
     <string name="olvide">Olvidé mi contraseña</string>
-
-
+    <string name="email">Correo electrónico</string>
 
 
 </resources>
