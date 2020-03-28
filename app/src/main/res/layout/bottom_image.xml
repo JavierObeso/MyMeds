@@ -13,10 +13,10 @@
         >
 
         <ImageView
-            android:layout_marginBottom="15dp"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_launcher_foreground"
+            android:layout_marginBottom="22.8dp"
+            android:layout_width="87.06dp"
+            android:layout_height="16.31dp"
+            android:background="@drawable/logo_inferior"
             />
 
     </LinearLayout>

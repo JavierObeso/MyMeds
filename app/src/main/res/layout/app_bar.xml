@@ -7,7 +7,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:id="@+id/tool_bar">
 
         <RelativeLayout
@@ -15,22 +15,31 @@
             android:layout_height="match_parent"
             >
 
+            <ImageView
+                android:layout_width="42.24dp"
+                android:layout_height="20.65dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/logo_superior"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
                 android:text="TU DÍA"
-                android:textSize="40sp"
+                android:textSize="24sp"
                 android:textColor="@color/white"
                 />
 
             <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="29.23dp"
+                android:layout_height="24.11dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/ic_menu"
                 />
         </RelativeLayout>

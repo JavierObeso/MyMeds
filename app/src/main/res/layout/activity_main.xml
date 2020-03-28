@@ -23,11 +23,28 @@
             android:orientation="vertical"
             >
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:background="@drawable/ic_launcher_foreground"
-                />
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:layout_width="171.5dp"
+                    android:layout_height="188.98dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_reloj"
+                    />
+
+                <TextClock
+                    android:id="@+id/reloj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="26sp"
+                    android:textColor="@color/upper_blue"
+                    />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/fecha"
@@ -35,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 />
 
@@ -45,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="PROGRESO DEL DÍA"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textColor="@color/light_blue"
                 />
 
