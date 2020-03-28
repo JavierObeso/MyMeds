@@ -2,6 +2,7 @@
 
     <string name="app_name">MyMeds</string>
     <string name="perdido_medicamento">¡Hoy has perdido uno de tus medicamentos!</string>
+    <string name="progreso_dia">PROGRESO DEL DÍA</string>
     <string name="light">sans-serif-light</string>
     <string name="condensed">sans-serif-condensed</string>
     <string name="thin">sans-serif-thin</string>

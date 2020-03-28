@@ -11,6 +11,7 @@ import android.widget.TextClock
 import android.widget.TextView
 import javier.obeso.mymeds.entidades.Alarma
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.alarma_view.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,8 +32,17 @@ class MainActivity : AppCompatActivity() {
         val fecha:TextView = findViewById(R.id.fecha) as TextView
         fecha.setText(""+fecha_actual.capitalize()+"")
 
+        mockAlarmas()
+
         adaptador = AdaptadorAlarmas(this, alarmas)
         lista.adapter = adaptador
+    }
+
+    //Sólo para presentación
+    fun mockAlarmas(){
+        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "22:00"))
+        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "08:00"))
+        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "18:00"))
     }
 
     private class AdaptadorAlarmas: BaseAdapter {
@@ -47,7 +57,11 @@ class MainActivity : AppCompatActivity() {
         override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
             var alarma = alarmas[p0]
             var inflador = LayoutInflater.from(contexto)
-            var vista = inflador.inflate(R.layout, null)
+            var vista = inflador.inflate(R.layout.alarma_view, null)
+
+            vista.tv_title.setText("Próximo " + alarma.tipo)
+            vista.tv_hour.setText(alarma.hora + " hrs.")
+            vista.alarma_layout.setAlpha(1 - (p0 * 0.3f))
 
             return vista
         }

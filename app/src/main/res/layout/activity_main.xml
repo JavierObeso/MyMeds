@@ -11,7 +11,7 @@
     <include layout="@layout/app_bar"/>
 
     <LinearLayout
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -29,11 +29,11 @@
                 >
 
                 <ImageView
-                    android:layout_width="171.5dp"
-                    android:layout_height="188.98dp"
+                    android:layout_width="200dp"
+                    android:layout_height="215dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/bg_reloj"
-                    />
+                    android:contentDescription="TODO" />
 
                 <TextClock
                     android:id="@+id/reloj"
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/white"
                 />
 
@@ -61,16 +61,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="PROGRESO DEL DÍA"
-                android:textSize="14sp"
+                android:text="@string/progreso_dia"
+                android:textSize="18sp"
                 android:textColor="@color/light_blue"
                 />
 
             <ImageView
                 android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@drawable/ic_launcher_foreground"
+                android:layout_width="250dp"
+                android:layout_height="21dp"
+                android:background="@drawable/cambiar"
+                android:layout_gravity="center"
                 />
 
             <TextView
@@ -79,15 +80,17 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/perdido_medicamento"
-                android:textSize="10sp"
+                android:textSize="15sp"
                 android:textColor="@color/white"
                 />
 
             <ListView
                 android:id="@+id/lista"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
+                android:divider="@null"
+                android:dividerHeight="0dp"
                 />
 
         </LinearLayout>
