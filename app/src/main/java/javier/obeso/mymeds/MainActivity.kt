@@ -1,14 +1,14 @@
 package javier.obeso.mymeds
 
 import android.content.Context
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextClock
-import android.widget.TextView
+import android.widget.*
+import androidx.drawerlayout.widget.DrawerLayout
 import javier.obeso.mymeds.entidades.Alarma
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alarma_view.view.*
@@ -32,6 +32,16 @@ class MainActivity : AppCompatActivity() {
         val fecha:TextView = findViewById(R.id.fecha) as TextView
         fecha.setText(""+fecha_actual.capitalize()+"")
 
+        val toolBar:Toolbar = R.layout.app_bar as Toolbar
+        setSupportActionBar(toolBar)
+
+
+        val menu:ImageButton = findViewById(R.id.boton_menu) as ImageButton
+
+        menu.setOnClickListener(){
+
+        }
+
         mockAlarmas()
 
         adaptador = AdaptadorAlarmas(this, alarmas)
@@ -42,6 +52,8 @@ class MainActivity : AppCompatActivity() {
     fun mockAlarmas(){
         alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "22:00"))
         alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "08:00"))
+        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "18:00"))
+        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "18:00"))
         alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "18:00"))
     }
 
@@ -61,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
             vista.tv_title.setText("Próximo " + alarma.tipo)
             vista.tv_hour.setText(alarma.hora + " hrs.")
-            vista.alarma_layout.setAlpha(1 - (p0 * 0.3f))
+            vista.alarma_layout.setAlpha(1 - (p0 * 0.15f))
 
             return vista
         }
