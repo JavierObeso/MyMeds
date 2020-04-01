@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient"
+    tools:context=".registroMedicamento">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:id="@+id/tool_bar">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/logo_superior"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:text="REGISTRO DE\nMEDICAMENTO"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    />
+
+                <ImageButton
+                    android:id="@+id/boton_menu"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/ic_menu"
+                    />
+            </RelativeLayout>
+
+        </Toolbar>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:paddingHorizontal="40dp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="70dp"
+            />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:hint="nombre"
+                />
+
+            <EditText
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="cantidad"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textAlignment="center"
+                />
+
+            <EditText
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:hint="caducidad"
+                android:textColorHint="@color/white"
+                android:textAlignment="center"
+                android:inputType="textPassword"
+                />
+            <Button
+                android:layout_width="219dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/round_button"
+                android:layout_gravity="center"
+                android:text="@string/guardar"
+                android:textColor="@color/lower_blue"
+                />
+
+    </LinearLayout>
+
+
+    <include layout="@layout/bottom_image"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

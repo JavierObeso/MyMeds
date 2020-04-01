@@ -17,5 +17,47 @@
     <string name="registrarme">Registrarme</string>
     <string name="olvide">Olvidé mi contraseña</string>
     <string name="email">Correo electrónico</string>
-    
+    <string name="guardar">Guardar</string>
+
+    <!-- Strings para los spinners -->
+    <string name="selected_item">Opcion seleccionada:</string>
+    <string-array name="arreglo_medicamentos">
+        <item>Medicamento</item>
+        <item>Parecetamol</item>
+        <item>Penicilina</item>
+        <item>Ibuprofeno</item>
+        <item>Paleta de miel</item>
+    </string-array>
+
+    <string-array name="arreglo_frecuencia">
+        <item>Frecuencia</item>
+        <item>Cada dia</item>
+        <item>Cada dos dias</item>
+        <item>Cada tres dias</item>
+        <item>Cada semana</item>
+    </string-array>
+
+    <string-array name="arreglo_dosis">
+        <item>Dosis</item>
+        <item>1 unidad</item>
+        <item>2 unidades</item>
+        <item>3 unidades</item>
+        <item>4 unidades</item>
+    </string-array>
+
+    <string-array name="arreglo_hora">
+        <item>Hora</item>
+        <item>9:00AM</item>
+        <item>12:00PM</item>
+        <item>3:00PM</item>
+        <item>6:00PM</item>
+    </string-array>
+
+    <string-array name="arreglo_revisores">
+        <item>Revisor</item>
+        <item>Gerardo</item>
+        <item>Jonatan</item>
+        <item>Javier</item>
+    </string-array>
+
 </resources>

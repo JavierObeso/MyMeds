@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         fecha.setText(""+fecha_actual.capitalize()+"")
 
         val toolBar:Toolbar = R.layout.app_bar as Toolbar
-        setSupportActionBar(toolBar)
+        //setSupportActionBar(toolBar)
 
 
         val menu:ImageButton = findViewById(R.id.boton_menu) as ImageButton

@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".registroAlarma"></activity>
+        <activity android:name=".registroMedicamento" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".LoginActivity">

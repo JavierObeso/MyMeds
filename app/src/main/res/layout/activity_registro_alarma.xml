@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient"
+    tools:context=".registroAlarma">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:id="@+id/tool_bar">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/logo_superior"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:text="REGISTRO DE\nALARMA"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    />
+
+                <ImageButton
+                    android:id="@+id/boton_menu"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/ic_menu"
+                    />
+            </RelativeLayout>
+
+        </Toolbar>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:paddingHorizontal="40dp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Especificaciones"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
+            />
+
+        <Spinner
+            android:id="@+id/spinner_medicamentos"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/arreglo_medicamentos"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            />
+        <Spinner
+            android:id="@+id/spinner_frecuencia"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/arreglo_frecuencia"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            />
+        <Spinner
+            android:id="@+id/spinner_dosis"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/arreglo_dosis"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            />
+        <Spinner
+            android:id="@+id/spinner_hora"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/arreglo_hora"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Determina el periodo"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Selecciona tu revisor"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
+            />
+
+        <Spinner
+            android:id="@+id/spinner_revisor"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/arreglo_revisores"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <Button
+            android:layout_width="219dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/round_button"
+            android:layout_gravity="center"
+            android:text="@string/guardar"
+            android:textColor="@color/lower_blue"
+            />
+
+
+    </LinearLayout>
+
+
+    <include layout="@layout/bottom_image"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>
