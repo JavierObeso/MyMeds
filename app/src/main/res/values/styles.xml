@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="TimePickerTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@drawable/blue_gradient</item>
+        <item name="colorPrimary">@color/upper_blue</item>
+        <item name="colorPrimaryDark">@color/lower_blue</item>
+        <item name="colorAccent">#2BF</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
 </resources>
