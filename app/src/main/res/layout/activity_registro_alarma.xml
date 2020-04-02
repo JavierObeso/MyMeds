@@ -55,6 +55,14 @@
 
         </Toolbar>
 
+        <Spinner
+            android:id="@+id/spinner_medicamentos"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            android:entries="@array/arreglo_medicamentos" />
+
     </LinearLayout>
 
 
@@ -69,8 +77,9 @@
 
 
         <ImageView
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="140dp"
             android:src="@drawable/img_clock"
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
@@ -87,14 +96,6 @@
             android:layout_marginBottom="10dp"
             />
 
-        <Spinner
-            android:id="@+id/spinner_medicamentos"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/arreglo_medicamentos"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginBottom="10dp"
-            />
         <Spinner
             android:id="@+id/spinner_frecuencia"
             android:layout_width="fill_parent"
@@ -118,14 +119,15 @@
             android:background="@drawable/spinner_item_background"
             android:hint="Hora"
             android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
+            android:paddingVertical="8dp"
             android:layout_marginHorizontal="40dp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="16sp"
             />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -143,11 +145,11 @@
             android:background="@drawable/spinner_item_background"
             android:hint="Inicia "
             android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
+            android:paddingVertical="8dp"
             android:layout_marginHorizontal="40dp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:layout_marginBottom="10dp"
             />
 
@@ -158,9 +160,9 @@
             android:background="@drawable/spinner_item_background"
             android:hint="Termina "
             android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
+            android:paddingVertical="8dp"
             android:layout_marginHorizontal="40dp"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginBottom="10dp"
@@ -187,6 +189,7 @@
             />
 
         <Button
+            android:layout_marginTop="15dp"
             android:layout_width="219dp"
             android:layout_height="33dp"
             android:background="@drawable/round_button"

@@ -1,6 +1,7 @@
 package javier.obeso.mymeds
 
 import android.content.Context
+import android.content.Intent
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,12 +28,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val clockButton:ImageButton = findViewById(R.id.fondo_reloj) as ImageButton
+
+        clockButton.setOnClickListener(){
+            var intent: Intent = Intent(this, registroAlarma::class.java)
+            startActivity(intent)
+        }
+
+        val addButton:Button = findViewById(R.id.boton_anadir) as Button
+
+        addButton.setOnClickListener(){
+            var intent: Intent = Intent(this, registroMedicamento::class.java)
+            startActivity(intent)
+        }
+
         val fecha_actual = SimpleDateFormat("EEEE dd 'de' MMMM yyyy", Locale("es","ES")).format(Date())
 
         val fecha:TextView = findViewById(R.id.fecha) as TextView
         fecha.setText(""+fecha_actual.capitalize()+"")
 
-        val toolBar:Toolbar = R.layout.app_bar as Toolbar
+        //val toolBar:Toolbar = R.layout.app_bar as Toolbar
         //setSupportActionBar(toolBar)
 
 

@@ -15,7 +15,7 @@ class LoginActivity : AppCompatActivity() {
         val botonRegistro:Button = findViewById(R.id.boton_registro) as Button
 
         botonIniciarSesion.setOnClickListener(){
-            var intent: Intent = Intent(this, registroAlarma::class.java)
+            var intent: Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
