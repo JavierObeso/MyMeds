@@ -15,5 +15,9 @@
         <item name="colorAccent">#2BF</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+    
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
 
 </resources>

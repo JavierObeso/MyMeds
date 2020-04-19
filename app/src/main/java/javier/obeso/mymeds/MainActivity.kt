@@ -22,13 +22,27 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         var alarmas = ArrayList<Alarma>()
+        var nombre: String? = null
+        var correo: String? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val bundle = intent.extras
+        if (bundle != null){
+                nombre = bundle.getString("name")
+                correo = bundle.getString("email")
+        }
+
+        val profileButton: ImageButton = findViewById(R.id.boton_perfil) as ImageButton
         val clockButton:ImageButton = findViewById(R.id.fondo_reloj) as ImageButton
+
+        profileButton.setOnClickListener(){
+            var intent: Intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         clockButton.setOnClickListener(){
             var intent: Intent = Intent(this, registroAlarma::class.java)
@@ -46,16 +60,6 @@ class MainActivity : AppCompatActivity() {
 
         val fecha:TextView = findViewById(R.id.fecha) as TextView
         fecha.setText(""+fecha_actual.capitalize()+"")
-
-        //val toolBar:Toolbar = R.layout.app_bar as Toolbar
-        //setSupportActionBar(toolBar)
-
-
-        val menu:ImageButton = findViewById(R.id.boton_menu) as ImageButton
-
-        menu.setOnClickListener(){
-
-        }
 
         mockAlarmas()
 

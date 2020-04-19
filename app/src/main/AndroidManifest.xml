@@ -9,11 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".registroAlarma"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".registroAlarma" />
         <activity android:name=".registroMedicamento" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegistroActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".SplashActivity"
+            android:noHistory="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
