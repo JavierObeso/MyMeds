@@ -9,14 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center|bottom"
+        android:gravity="center|right"
         >
 
         <Button
             android:id="@+id/boton_anadir"
-            android:layout_marginBottom="34dp"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom|center"
             android:background="@drawable/ic_add"
             />

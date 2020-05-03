@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import javier.obeso.mymeds.entidades.Alarma
+import kotlinx.android.synthetic.main.activity_registro_alarma.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +31,27 @@ class registroAlarma : AppCompatActivity() {
         configurarEditTextFin()
         configurarSpinnerRevisor()
 
-    }//Termina metodo onCreate()
+        back.setOnClickListener(){
+            finish()
+        }
+
+        boton_guardar.setOnClickListener(){
+            var nombre = spinner_medicamentos.selectedItem.toString()
+            var frecuencia = spinner_frecuencia.selectedItem.toString()
+            var dosis = spinner_dosis.selectedItem.toString()
+            var hora = et_hora.text.toString()
+            var inicio = inicio_periodo.text.toString()
+            var fin = fin_periodo.text.toString()
+            var revisor:String? = spinner_revisor.selectedItem.toString()
+
+            var alarma = Alarma (nombre,frecuencia,dosis, hora, inicio, fin, revisor)
+
+            MainActivity.alarmas.add(alarma)
+
+            Toast.makeText(this, "Se añadió la alarma", Toast.LENGTH_SHORT).show()
+        }
+
+    }
 
     fun configurarSpinnerMedicamentos() {
         val medicamentos = resources.getStringArray(R.array.arreglo_medicamentos)

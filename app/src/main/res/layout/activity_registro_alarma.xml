@@ -23,6 +23,7 @@
                 >
 
                 <ImageView
+                    android:id="@+id/back"
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -41,45 +42,31 @@
                     android:textSize="18sp"
                     android:textColor="@color/white"
                     />
-
-                <ImageButton
-                    android:id="@+id/boton_menu"
-                    android:layout_width="40dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/ic_menu"
-                    />
             </RelativeLayout>
 
         </Toolbar>
 
-        <Spinner
-            android:id="@+id/spinner_medicamentos"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginBottom="10dp"
-            android:entries="@array/arreglo_medicamentos" />
-
     </LinearLayout>
 
-
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:layout_marginTop="80dp"
+        >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:orientation="vertical"
         android:paddingHorizontal="40dp"
-        android:orientation="vertical">
+        >
 
 
         <ImageView
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="120dp"
             android:src="@drawable/img_clock"
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
@@ -95,6 +82,14 @@
             android:textColor="@color/white"
             android:layout_marginBottom="10dp"
             />
+
+        <Spinner
+            android:id="@+id/spinner_medicamentos"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            android:entries="@array/arreglo_medicamentos" />
 
         <Spinner
             android:id="@+id/spinner_frecuencia"
@@ -189,6 +184,7 @@
             />
 
         <Button
+            android:id="@+id/boton_guardar"
             android:layout_marginTop="15dp"
             android:layout_width="219dp"
             android:layout_height="33dp"
@@ -198,8 +194,9 @@
             android:textColor="@color/lower_blue"
             />
 
-
     </LinearLayout>
+
+    </ScrollView>
 
 
     <include layout="@layout/bottom_image"/>

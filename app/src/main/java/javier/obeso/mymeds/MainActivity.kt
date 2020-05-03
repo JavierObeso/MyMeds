@@ -2,19 +2,21 @@ package javier.obeso.mymeds
 
 import android.content.Context
 import android.content.Intent
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.drawerlayout.widget.DrawerLayout
+import android.widget.BaseAdapter
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import javier.obeso.mymeds.entidades.Alarma
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alarma_view.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,19 +63,38 @@ class MainActivity : AppCompatActivity() {
         val fecha:TextView = findViewById(R.id.fecha) as TextView
         fecha.setText(""+fecha_actual.capitalize()+"")
 
-        mockAlarmas()
+        adaptador = AdaptadorAlarmas(this, alarmas)
+        lista.adapter = adaptador
+
+        if (alarmas.size != 0) {
+            makeCircles()
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         adaptador = AdaptadorAlarmas(this, alarmas)
         lista.adapter = adaptador
+
+        if (alarmas.size != 0) {
+            makeCircles()
+        }
     }
 
-    //Sólo para presentación
-    fun mockAlarmas(){
-        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "22:00"))
-        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "08:00"))
-        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "18:00"))
-        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "18:00"))
-        alarmas.add(Alarma("medicamento","10 hrs.", "10 ml.", "18:00"))
+    fun makeCircles(){
+        progress.removeAllViews()
+        var c = 1
+        for (item in alarmas){
+            val circle: View = layoutInflater.inflate(R.layout.circle_view, null)
+            val line: View = layoutInflater.inflate(R.layout.line_view, null)
+            progress.addView(circle)
+            if(c != alarmas.size){
+                progress.addView(line)
+            }
+            c++
+        }
     }
 
     private class AdaptadorAlarmas: BaseAdapter {
@@ -90,9 +111,8 @@ class MainActivity : AppCompatActivity() {
             var inflador = LayoutInflater.from(contexto)
             var vista = inflador.inflate(R.layout.alarma_view, null)
 
-            vista.tv_title.setText("Próximo " + alarma.tipo)
+            vista.tv_title.setText("Próximo medicamento")
             vista.tv_hour.setText(alarma.hora + " hrs.")
-            vista.alarma_layout.setAlpha(1 - (p0 * 0.15f))
 
             return vista
         }

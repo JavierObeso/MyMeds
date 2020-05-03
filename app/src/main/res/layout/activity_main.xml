@@ -63,6 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
         >
 
         <LinearLayout
@@ -115,16 +116,20 @@
                 android:textColor="@color/light_blue"
                 />
 
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="250dp"
-                android:layout_height="21dp"
-                android:background="@drawable/cambiar"
-                android:layout_gravity="center"
-                />
+            <LinearLayout
+                android:id="@+id/progress"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+            </LinearLayout>
+
 
             <TextView
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
