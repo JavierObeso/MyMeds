@@ -12,14 +12,19 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import javier.obeso.mymeds.entidades.Alarma
+import javier.obeso.mymeds.utilities.JSONFile
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alarma_view.view.*
+import org.json.JSONArray
+import org.json.JSONException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
+    var jsonFile: JSONFile? = null
+    var data: Boolean = false
     private var adaptador: AdaptadorAlarmas? = null
 
     companion object{
@@ -31,6 +36,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        jsonFile = JSONFile()
+
+        fetchingData()
 
         val bundle = intent.extras
         if (bundle != null){
@@ -75,12 +84,60 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        fetchingData()
+
         adaptador = AdaptadorAlarmas(this, alarmas)
         lista.adapter = adaptador
 
         if (alarmas.size != 0) {
             makeCircles()
         }
+    }
+
+    fun fetchingData (){
+        try {
+            var json:String = jsonFile?.getDataAlarmas(this) ?: ""
+            if (json != ""){
+                this.data = true
+                var jsonArray: JSONArray = JSONArray(json)
+
+                alarmas = parseJSON(jsonArray)
+
+            } else {
+                this.data = false
+            }
+        } catch (exception: JSONException){
+            exception.printStackTrace()
+        }
+    }
+
+    fun parseJSON(jsonArray: JSONArray): ArrayList<Alarma>{
+        var lista = ArrayList<Alarma>()
+
+        for (i in 0..jsonArray.length()){
+            try {
+                val nombre = jsonArray.getJSONObject(i).getString("medicamento")
+                val frecuencia = jsonArray.getJSONObject(i).getString("frecuencia")
+                val dosis = jsonArray.getJSONObject(i).getString("dosis")
+                val hora = jsonArray.getJSONObject(i).getString("hora")
+                val inicio = jsonArray.getJSONObject(i).getString("inicio")
+                val fin = jsonArray.getJSONObject(i).getString("fin")
+                val revisor = jsonArray.getJSONObject(i).getString("revisor")
+
+                var alarma:Alarma
+                if(revisor.isEmpty() || revisor.equals("", true)){
+                    alarma = Alarma(nombre, frecuencia, dosis, hora, inicio, fin, null)
+                } else {
+                    alarma = Alarma(nombre, frecuencia, dosis, hora, inicio, fin, revisor)
+                }
+
+                lista.add(alarma)
+
+            } catch (exception: JSONException){
+                exception.printStackTrace()
+            }
+        }
+        return lista
     }
 
     fun makeCircles(){

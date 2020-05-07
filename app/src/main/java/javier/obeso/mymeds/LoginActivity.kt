@@ -16,7 +16,6 @@ import javier.obeso.mymeds.utilities.JSONFile
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
 
 
 class LoginActivity : AppCompatActivity() {
@@ -24,6 +23,8 @@ class LoginActivity : AppCompatActivity() {
     val RC_SIGN_IN = 123
     lateinit var mGoogleSignInClient: GoogleSignInClient
     var jsonFile:JSONFile ?= null
+    var nombreUsuario: String = ""
+    var correo: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,9 @@ class LoginActivity : AppCompatActivity() {
 
         botonIniciarSesion.setOnClickListener(){
             if(iniciarSesion()) {
-                var intent: Intent = Intent(this, MainActivity::class.java)
+                val intent: Intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("name", nombreUsuario)
+                intent.putExtra("email", correo)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
@@ -111,6 +114,8 @@ class LoginActivity : AppCompatActivity() {
             if(!credenciales.isEmpty()) {
                 if(usuarioString.equals(credenciales.get(0), true)
                     && contrasenaString.equals(credenciales.get(1), true)) {
+                    nombreUsuario = credenciales.get(0)
+                    correo = credenciales.get(2)
                     Toast.makeText(this, "Inicio de sesion exitoso", Toast.LENGTH_SHORT).show()
                     return true
                 }
@@ -144,8 +149,10 @@ class LoginActivity : AppCompatActivity() {
             try {
                 val usuario = jsonArray.getJSONObject(i).getString("usuario")
                 val contrasena = jsonArray.getJSONObject(i).getString("contrasena")
+                val correo = jsonArray.getJSONObject(i).getString("email")
                 lista.add(usuario)
                 lista.add(contrasena)
+                lista.add(correo)
             } catch (exception: JSONException) {
                 exception.printStackTrace()
             }

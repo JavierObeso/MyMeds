@@ -10,18 +10,24 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import javier.obeso.mymeds.entidades.Alarma
+import javier.obeso.mymeds.utilities.JSONFile
 import kotlinx.android.synthetic.main.activity_registro_alarma.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class registroAlarma : AppCompatActivity() {
 
+    var jsonFile: JSONFile? = null
     val timeSetListener = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro_alarma)
+
+        jsonFile = JSONFile()
 
         configurarSpinnerMedicamentos()
         configurarSpinnerFrecuencia()
@@ -36,7 +42,7 @@ class registroAlarma : AppCompatActivity() {
         }
 
         boton_guardar.setOnClickListener(){
-            var nombre = spinner_medicamentos.selectedItem.toString()
+            /* var nombre = spinner_medicamentos.selectedItem.toString()
             var frecuencia = spinner_frecuencia.selectedItem.toString()
             var dosis = spinner_dosis.selectedItem.toString()
             var hora = et_hora.text.toString()
@@ -47,6 +53,9 @@ class registroAlarma : AppCompatActivity() {
             var alarma = Alarma (nombre,frecuencia,dosis, hora, inicio, fin, revisor)
 
             MainActivity.alarmas.add(alarma)
+             */
+
+            guardar()
 
             Toast.makeText(this, "Se añadió la alarma", Toast.LENGTH_SHORT).show()
         }
@@ -202,8 +211,54 @@ class registroAlarma : AppCompatActivity() {
         }
     }
 
+    fun guardar() {
+        var jsonArray: JSONArray = JSONArray()
 
+        var medicamento:Spinner = findViewById(R.id.spinner_medicamentos) as Spinner
+        var medicamentoString:String = medicamento.selectedItem.toString()
 
+        var frecuencia:Spinner = findViewById(R.id.spinner_frecuencia) as Spinner
+        var frecuenciaString:String = frecuencia.selectedItem.toString()
 
+        var dosis:Spinner = findViewById(R.id.spinner_dosis) as Spinner
+        var dosisString:String = dosis.selectedItem.toString()
+
+        var hora:EditText = findViewById(R.id.et_hora) as EditText
+        var horaString:String = hora.text.toString()
+
+        var inicio:EditText = findViewById(R.id.inicio_periodo) as EditText
+        var inicioString:String = inicio.text.toString()
+
+        var fin:EditText = findViewById(R.id.fin_periodo) as EditText
+        var finString:String = fin.text.toString()
+
+        var revisor:Spinner = findViewById(R.id.spinner_revisor) as Spinner
+        var revisorString:String = revisor.selectedItem.toString()
+
+        if(medicamentoString.isEmpty() || frecuenciaString.isEmpty() || dosisString.isEmpty() ||
+            horaString.isEmpty() || inicioString.isEmpty() || finString.isEmpty()) {
+            Toast.makeText(this, "No se llenaron todos los campos", Toast.LENGTH_SHORT).show()
+        } else {
+
+            var j: JSONObject = JSONObject()
+            j.put("medicamento", medicamentoString)
+            j.put("frecuencia", frecuenciaString)
+            j.put("dosis", dosisString)
+            j.put("hora", horaString)
+            j.put("inicio", inicioString)
+            j.put("fin", finString)
+            if (!revisorString.isEmpty() && !revisorString.equals("Revisor", true)){
+                j.put("revisor", revisorString)
+            } else {
+                j.put("revisor", "")
+            }
+
+            jsonArray.put(MainActivity.alarmas.size, j)
+
+            jsonFile?.saveDataAlarmas(this, jsonArray.toString())
+
+        }
+
+    }
 
 }//Termina clase
