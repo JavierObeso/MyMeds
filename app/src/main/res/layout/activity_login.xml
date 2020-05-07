@@ -33,6 +33,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/loginUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/white"
@@ -42,6 +43,7 @@
             />
 
         <EditText
+            android:id="@+id/loginContrasena"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -89,6 +89,7 @@
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:hint="nombre"
+                android:inputType="text"
                 android:backgroundTint="@color/light_blue"
                 />
 
@@ -100,6 +101,7 @@
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textAlignment="center"
+                android:inputType="text"
                 android:backgroundTint="@color/light_blue"
                 />
 
@@ -111,7 +113,7 @@
                 android:hint="caducidad"
                 android:textColorHint="@color/white"
                 android:textAlignment="center"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:backgroundTint="@color/light_blue"
                 />
             <Button
@@ -125,6 +127,8 @@
                 />
 
     </LinearLayout>
+
+
 
     </ScrollView>
 

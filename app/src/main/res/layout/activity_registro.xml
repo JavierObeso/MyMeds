@@ -33,6 +33,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/usuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/white"
@@ -42,6 +43,7 @@
             />
 
         <EditText
+            android:id="@+id/contrasena"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +55,7 @@
             />
 
         <EditText
+            android:id="@+id/confirmarContrasena"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,6 +67,7 @@
             />
 
         <EditText
+            android:id="@+id/email"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:textColor="@color/white"
@@ -75,6 +79,7 @@
             />
 
         <Button
+            android:id="@+id/btnRegistrar"
             android:layout_width="219dp"
             android:layout_height="33dp"
             android:layout_marginTop="15dp"
