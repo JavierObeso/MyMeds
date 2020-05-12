@@ -62,4 +62,7 @@
         <item>Javier</item>
     </string-array>
 
+    <string name="channel_name">notificaciones</string>
+    <string name="channel_description">canal de notificaciones para medicamentos</string>
+
 </resources>

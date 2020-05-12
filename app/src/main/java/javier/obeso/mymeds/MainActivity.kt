@@ -1,8 +1,16 @@
 package javier.obeso.mymeds
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +19,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,12 +28,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import javier.obeso.mymeds.entidades.Alarma
 import javier.obeso.mymeds.entidades.Medicamento
-import javier.obeso.mymeds.utilities.JSONFile
+import javier.obeso.mymeds.utilities.ReminderBroadcast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.alarma_view.view.*
-import org.json.JSONArray
-import org.json.JSONException
+import java.lang.Math.random
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +40,11 @@ class MainActivity : AppCompatActivity() {
 
     private var adaptador: AdaptadorAlarmas? = null
     var create:Boolean = false
+    var CHANNEL_ID:String = "notificacionMyMeds";
+
+//    private var alarmMgr: AlarmManager? = null
+//    private lateinit var alarmIntent: PendingIntent
+//    var pendingIntents: ArrayList<PendingIntent>? = null
 
     companion object{
         var alarmas = ArrayList<Alarma>()
@@ -41,6 +54,50 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //desde aqui
+        createNotificationChannel()
+//        pendingIntents = ArrayList<PendingIntent>()
+//
+//        alarmMgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//
+//        var calendar = Calendar.getInstance().apply {
+//            timeInMillis = System.currentTimeMillis()
+//            set(Calendar.HOUR_OF_DAY, 14)
+//            set(Calendar.MINUTE, 18)
+//            set(Calendar.SECOND,0)
+//        }
+//        var calendar2 = Calendar.getInstance().apply {
+//            timeInMillis = System.currentTimeMillis()
+//            set(Calendar.HOUR_OF_DAY, 14)
+//            set(Calendar.MINUTE, 19)
+//            set(Calendar.SECOND,1)
+//        }
+//        for (i in 0..2) {
+//            var intento:Intent = Intent(this, ReminderBroadcast::class.java)
+//            var alarmIntent: PendingIntent = PendingIntent.getBroadcast(this, i, intento, 0)
+//
+//            if(i == 0) {
+//                alarmMgr!!.setExact(
+//                    AlarmManager.RTC_WAKEUP,
+//                    calendar.timeInMillis,
+//                    alarmIntent
+//                )
+//            }
+//
+//            if(i == 1) {
+//                alarmMgr!!.setExact(
+//                    AlarmManager.RTC_WAKEUP,
+//                    calendar2.timeInMillis,
+//                    alarmIntent
+//                )
+//            }
+//        }
+
+
+
+        //hasta aqui
+
 
         create = true
 
@@ -78,6 +135,24 @@ class MainActivity : AppCompatActivity() {
         adaptador = AdaptadorAlarmas(this, alarmas)
         lista.adapter = adaptador
     }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()

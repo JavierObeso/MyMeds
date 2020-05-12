@@ -1,7 +1,10 @@
 package javier.obeso.mymeds
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -15,10 +18,13 @@ import com.google.firebase.database.*
 import javier.obeso.mymeds.entidades.Alarma
 import javier.obeso.mymeds.entidades.Medicamento
 import javier.obeso.mymeds.utilities.JSONFile
+import javier.obeso.mymeds.utilities.ReminderBroadcast
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_registro_alarma.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 
 class registroAlarma : AppCompatActivity() {
@@ -28,6 +34,10 @@ class registroAlarma : AppCompatActivity() {
     var cantAlarmas:Int = 0
 
     var mDatabase: DatabaseReference? = null
+
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
+    var pendingIntents: java.util.ArrayList<PendingIntent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +54,45 @@ class registroAlarma : AppCompatActivity() {
         configurarEditTextInicio()
         configurarEditTextFin()
         configurarSpinnerRevisor()
+
+        pendingIntents = java.util.ArrayList<PendingIntent>()
+
+        alarmMgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+//        var calendar = Calendar.getInstance().apply {
+//            timeInMillis = System.currentTimeMillis()
+//            set(Calendar.HOUR_OF_DAY, 14)
+//            set(Calendar.MINUTE, 40)
+//            set(Calendar.SECOND,0)
+//        }
+//        var calendar2 = Calendar.getInstance().apply {
+//            timeInMillis = System.currentTimeMillis()
+//            set(Calendar.HOUR_OF_DAY, 14)
+//            set(Calendar.MINUTE, 41)
+//            set(Calendar.SECOND,1)
+//        }
+//        for (i in 0..2) {
+//            var intento:Intent = Intent(this, ReminderBroadcast::class.java)
+//            var requestCode = Random.nextInt(0, 1000)
+//            var alarmIntent: PendingIntent = PendingIntent.getBroadcast(this, requestCode, intento, 0)
+//
+//
+//            if(i == 0) {
+//                alarmMgr!!.setExact(
+//                    AlarmManager.RTC_WAKEUP,
+//                    calendar.timeInMillis,
+//                    alarmIntent
+//                )
+//            }
+//
+//            if(i == 1) {
+//                alarmMgr!!.setExact(
+//                    AlarmManager.RTC_WAKEUP,
+//                    calendar2.timeInMillis,
+//                    alarmIntent
+//                )
+//            }
+//        }
 
         var atras:ImageButton = findViewById(R.id.back) as ImageButton
 
@@ -180,8 +229,7 @@ class registroAlarma : AppCompatActivity() {
             spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    Toast.makeText(this@registroAlarma, getString(R.string.selected_item) + " " +
-                            "" + revisores[position], Toast.LENGTH_SHORT).show()
+
                 }
                 override fun onNothingSelected(parent: AdapterView<*>) {
                 }
@@ -251,6 +299,7 @@ class registroAlarma : AppCompatActivity() {
             mDatabase!!.child("Users").child(id).child("Alarmas").child(cantAlarmas.toString()).setValue(alarma).addOnCompleteListener { task2: Task<Void> ->
                 if (task2.isSuccessful()) {
                     Toast.makeText(this, "Alarma registrada correctamente", Toast.LENGTH_SHORT).show();
+                    agendarNotificacion(horaString, inicioString, finString, frecuenciaString)
                 } else {
                     Toast.makeText(this, "No se pudo crear la alarma", Toast.LENGTH_SHORT).show();
                 }
@@ -258,6 +307,50 @@ class registroAlarma : AppCompatActivity() {
 
             return true
         }
+    }
+
+    fun agendarNotificacion(hora:String, inicio:String, fin:String, frecuencia:String) {
+
+        var fechaSeleccionada: String = inicio + " " + hora
+        var sdf:SimpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm")
+        var calendarInicio = Calendar.getInstance()
+        calendarInicio.time = sdf.parse(fechaSeleccionada)
+
+        var fechaFin: String = fin + " " + hora
+        var calendarFin = Calendar.getInstance()
+        calendarFin.time = sdf.parse(fechaFin)
+
+        var diferenciaDias = Math.abs((calendarInicio.timeInMillis - calendarFin.timeInMillis) / 86400000).toInt()
+        var diasRestantes = diferenciaDias
+        var frecuenciaDias = 0
+        if(frecuencia.equals("cada dia", true)) {
+            frecuenciaDias = 1
+        } else if (frecuencia.equals("cada dos dias", true)) {
+            frecuenciaDias = 2
+        } else if(frecuencia.equals("cada tres dias", true)) {
+            frecuenciaDias = 3
+        } else if(frecuencia.equals("cada semana", true)) {
+            frecuenciaDias = 7
+        } else {
+            frecuenciaDias = 30
+        }
+
+        while (diasRestantes >= frecuenciaDias) {
+            var intento:Intent = Intent(this, ReminderBroadcast::class.java)
+            var requestCode = Random.nextInt(0, 20000)
+            var alarmIntent: PendingIntent = PendingIntent.getBroadcast(this, requestCode, intento, 0)
+
+            alarmMgr!!.setExact(
+                AlarmManager.RTC_WAKEUP,
+                calendarInicio.timeInMillis,
+                alarmIntent
+            )
+            pendingIntents?.add(alarmIntent)
+            calendarInicio.add(Calendar.DATE, frecuenciaDias)
+            diasRestantes = diasRestantes - frecuenciaDias
+        }
+
+
     }
 
     fun actualizaCantAlarmas (cantAlarmas:Int){
