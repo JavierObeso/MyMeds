@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 >
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/back"
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
@@ -197,7 +197,6 @@
     </LinearLayout>
 
     </ScrollView>
-
 
     <include layout="@layout/bottom_image"/>
 

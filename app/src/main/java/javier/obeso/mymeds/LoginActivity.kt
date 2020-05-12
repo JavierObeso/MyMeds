@@ -6,16 +6,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import javier.obeso.mymeds.utilities.JSONFile
-import kotlinx.android.synthetic.main.activity_login.*
-import org.json.JSONArray
-import org.json.JSONException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -23,8 +20,8 @@ class LoginActivity : AppCompatActivity() {
     val RC_SIGN_IN = 123
     lateinit var mGoogleSignInClient: GoogleSignInClient
     var jsonFile:JSONFile ?= null
-    var nombreUsuario: String = ""
     var correo: String = ""
+    var password: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +30,20 @@ class LoginActivity : AppCompatActivity() {
         jsonFile = JSONFile()
 
         val botonIniciarSesion:Button = findViewById(R.id.boton_inicio) as Button
-        val botonRegistro:Button = findViewById(R.id.boton_registro) as Button
+
+        var usuario: EditText = findViewById(R.id.loginUsuario)
+        var contrasena: EditText = findViewById(R.id.loginContrasena)
 
         botonIniciarSesion.setOnClickListener(){
+            correo = usuario.text.toString()
+            password = contrasena.text.toString()
+
+            if (!correo.isEmpty() || !password.isEmpty()) {
+                iniciarSesion()
+            } else {
+                Toast.makeText(this, "No se llenaron todos los campos", Toast.LENGTH_SHORT).show()
+            }
+            /*
             if(iniciarSesion()) {
                 val intent: Intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("name", nombreUsuario)
@@ -44,27 +52,45 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
+             */
         }
+
+        val botonRegistro:Button = findViewById(R.id.boton_registro) as Button
 
         botonRegistro.setOnClickListener(){
             var intent: Intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
 
+        /*
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        sign_in_google.setOnClickListener(){
-            val signInIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
+         */
+    }
+    override fun onStart() {
+        super.onStart()
+        if (FirebaseAuth.getInstance().currentUser != null){
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
-
     }
 
+    fun iniciarSesion() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(correo, password).addOnCompleteListener(){
+            if (it.isSuccessful){
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                Toast.makeText(this, "Usuario y/o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /*
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -127,7 +153,6 @@ class LoginActivity : AppCompatActivity() {
         return false
     }
 
-
     fun fetchingData():ArrayList<String> {
         try {
             var json: String = jsonFile?.getData(this) ?: ""
@@ -159,5 +184,6 @@ class LoginActivity : AppCompatActivity() {
         }
         return lista
     }
+     */
 
 }

@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 >
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/backPerfil"
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/back_arrow"
-                    android:contentDescription="TODO" />
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,6 +55,7 @@
         >
 
         <LinearLayout
+            android:layout_marginBottom="45dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
@@ -121,6 +122,17 @@
                 android:textColor="@color/light_blue"
                 android:textSize="22sp"
                 android:gravity="center"
+                />
+
+            <Button
+                android:id="@+id/boton_cerrar_sesion"
+                android:layout_width="219dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/round_button"
+                android:layout_gravity="center"
+                android:text="@string/cerrarSesion"
+                android:textColor="@color/lower_blue"
                 />
 
         </LinearLayout>

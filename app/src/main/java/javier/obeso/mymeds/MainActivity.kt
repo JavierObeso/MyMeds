@@ -11,9 +11,16 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import javier.obeso.mymeds.entidades.Alarma
+import javier.obeso.mymeds.entidades.Medicamento
 import javier.obeso.mymeds.utilities.JSONFile
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.alarma_view.view.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -23,29 +30,25 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    var jsonFile: JSONFile? = null
-    var data: Boolean = false
     private var adaptador: AdaptadorAlarmas? = null
+    var create:Boolean = false
 
     companion object{
         var alarmas = ArrayList<Alarma>()
-        var nombre: String? = null
-        var correo: String? = null
+        var medicamentos = ArrayList<Medicamento>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        jsonFile = JSONFile()
+        create = true
 
-        fetchingData()
+        alarmas.clear()
+        medicamentos.clear()
 
-        val bundle = intent.extras
-        if (bundle != null){
-                nombre = bundle.getString("name")
-                correo = bundle.getString("email")
-        }
+        cargaAlarmas()
+        cargaMedicamentos()
 
         val profileButton: ImageButton = findViewById(R.id.boton_perfil) as ImageButton
         val clockButton:ImageButton = findViewById(R.id.fondo_reloj) as ImageButton
@@ -74,26 +77,113 @@ class MainActivity : AppCompatActivity() {
 
         adaptador = AdaptadorAlarmas(this, alarmas)
         lista.adapter = adaptador
-
-        if (alarmas.size != 0) {
-            makeCircles()
-        }
-
     }
 
     override fun onResume() {
         super.onResume()
 
-        fetchingData()
+        if (create != true){
+            alarmas.clear()
+            medicamentos.clear()
 
-        adaptador = AdaptadorAlarmas(this, alarmas)
-        lista.adapter = adaptador
+            cargaAlarmas()
+            cargaMedicamentos()
 
-        if (alarmas.size != 0) {
-            makeCircles()
+            adaptador = AdaptadorAlarmas(this, alarmas)
+            lista.adapter = adaptador
+        } else {
+            create = false
         }
     }
 
+    fun cargaAlarmas(){
+        val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(object:
+            ValueEventListener {
+            override fun onCancelled(dataBaseError: DatabaseError) {}
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val map = dataSnapshot.value as HashMap<*, *>
+
+                agregaAlarmas(map["cantAlarmas"].toString().toInt())
+            }
+        })
+    }
+
+    fun cargaMedicamentos(){
+        val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(object:
+            ValueEventListener {
+            override fun onCancelled(dataBaseError: DatabaseError) {}
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val map = dataSnapshot.value as HashMap<*, *>
+
+                agregaMedicamentos(map["cantMedicamentos"].toString().toInt())
+            }
+        })
+    }
+
+    fun agregaAlarmas (cantAlarmas:Int){
+        val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
+
+        if (cantAlarmas != 0){
+            for (i in 0..cantAlarmas){
+                FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Alarmas").child(i.toString()).addValueEventListener(object:
+                    ValueEventListener {
+                    override fun onCancelled(dataBaseError: DatabaseError) {}
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            val map = dataSnapshot.value as Map<*,*>
+                            val medicamento = map["nombre"].toString()
+                            val dosis = map["dosis"].toString()
+                            val frecuencia = map["frecuencia"].toString()
+                            val hora = map["hora"].toString()
+                            val inicio = map["inicio"].toString()
+                            val fin = map["fin"].toString()
+                            val revisor = map["revisor"].toString()
+
+                            alarmas.add(Alarma(medicamento,frecuencia, dosis, hora, inicio, fin, revisor))
+                            adaptador!!.notifyDataSetChanged()
+
+                            if (alarmas.size != 0) {
+                                makeCircles()
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    }
+
+    fun agregaMedicamentos (cantMedicamentos:Int){
+        val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
+
+        if (cantMedicamentos != 0){
+            for (i in 0..cantMedicamentos){
+                FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Medicamentos").child(i.toString()).addValueEventListener(object:
+                    ValueEventListener {
+                    override fun onCancelled(dataBaseError: DatabaseError) {}
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            val map = dataSnapshot.value as Map<*,*>
+                            val nombre = map["nombre"].toString()
+                            val cantidad = map["cantidad"].toString()
+                            val caducidad = map["caducidad"].toString()
+
+                            medicamentos.add(Medicamento(nombre,cantidad, caducidad))
+                        }
+                    }
+                })
+            }
+        }
+    }
+
+    /*
     fun fetchingData (){
         try {
             var json:String = jsonFile?.getDataAlarmas(this) ?: ""
@@ -139,6 +229,7 @@ class MainActivity : AppCompatActivity() {
         }
         return lista
     }
+     */
 
     fun makeCircles(){
         progress.removeAllViews()

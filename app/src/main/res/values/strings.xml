@@ -21,6 +21,8 @@
 
     <!-- Strings para los spinners -->
     <string name="selected_item">Opcion seleccionada:</string>
+    <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="correo">Correo</string>
     <string-array name="arreglo_medicamentos">
         <item>Medicamento</item>
         <item>Parecetamol</item>

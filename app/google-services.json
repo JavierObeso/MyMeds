@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "132112862824",
+    "firebase_url": "https://mymeds-1587236650430.firebaseio.com",
+    "project_id": "mymeds-1587236650430",
+    "storage_bucket": "mymeds-1587236650430.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132112862824:android:c7e2b60c387261743f75dd",
+        "android_client_info": {
+          "package_name": "javier.obeso.mymeds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132112862824-vjmoru0aclaj4eti75r6cibek6o889ld.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "javier.obeso.mymeds",
+            "certificate_hash": "28ec2ea9340b2582592bb157e78a08b17fcbb7a6"
+          }
+        },
+        {
+          "client_id": "132112862824-aqkptug3vc2m3kt12k78nu6vnb0dqtlu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7EtULtv4E7IAIPlvGcVbnylACoIGNcG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132112862824-aqkptug3vc2m3kt12k78nu6vnb0dqtlu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
