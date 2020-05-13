@@ -3,21 +3,19 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="650dp"
-    android:gravity="right|bottom"
+    android:gravity="center|bottom"
     >
 
     <LinearLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/alarma_layout"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:background="@drawable/circulo_add"
-        android:layout_marginBottom="50dp"
-        android:layout_marginRight="25dp"
         >
 
         <ImageButton
-            android:id="@+id/boton_anadir"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:src="@drawable/ic_add"
             android:background="@android:color/transparent"
             />

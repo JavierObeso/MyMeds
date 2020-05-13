@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.alarma_view.view.*
 import java.lang.Math.random
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
 
         //hasta aqui
 
+        alerta_perdida.setVisibility(View.GONE);
 
         create = true
 
@@ -120,7 +122,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val addButton:Button = findViewById(R.id.boton_anadir) as Button
+        val addButton:ImageButton = findViewById(R.id.boton_anadir) as ImageButton
 
         addButton.setOnClickListener(){
             var intent: Intent = Intent(this, registroMedicamento::class.java)
@@ -157,6 +159,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        alerta_perdida.setVisibility(View.GONE);
+
         if (create != true){
             alarmas.clear()
             medicamentos.clear()
@@ -169,6 +173,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             create = false
         }
+
     }
 
     fun cargaAlarmas(){
@@ -334,8 +339,14 @@ class MainActivity : AppCompatActivity() {
             var inflador = LayoutInflater.from(contexto)
             var vista = inflador.inflate(R.layout.alarma_view, null)
 
-            vista.tv_title.setText("Próximo medicamento")
-            vista.tv_hour.setText(alarma.hora + " hrs.")
+            if (alarma.nombre.equals("Aún no tiene alarmas", true)) {
+                vista.tv_title.setText(alarma.nombre)
+                vista.tv_hour.setText(alarma.hora)
+            } else {
+                vista.tv_title.setText(alarma.nombre)
+                vista.tv_hour.setText(alarma.hora + " hrs.")
+            }
+
 
             return vista
         }
