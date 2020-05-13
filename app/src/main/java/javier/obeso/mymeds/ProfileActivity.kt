@@ -28,9 +28,9 @@ class ProfileActivity : AppCompatActivity() {
 
         getInfoUser()
 
-        val getBack:ImageButton = findViewById<ImageButton>(R.id.backPerfil)
+        var atras: ImageButton = findViewById(R.id.backPerfil) as ImageButton
 
-        getBack.setOnClickListener(){
+        atras.setOnClickListener(){
             finish()
         }
 

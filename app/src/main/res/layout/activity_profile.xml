@@ -58,7 +58,7 @@
             android:layout_marginBottom="45dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:paddingHorizontal="40dp"
             android:orientation="vertical">
 
@@ -72,17 +72,29 @@
                 android:layout_marginTop="30dp"
                 android:contentDescription="TODO" />
 
+            <RatingBar
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:numStars="5"
+                android:stepSize="1"
+                android:isIndicator="false"
+                android:rating="2"
+                style="@style/star_bar"
+                />
+
             <ImageView
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/stars"
                 android:layout_gravity="center"
                 />
 
             <TextView
                 android:id="@+id/tv_nombre"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Victoria López"
@@ -93,7 +105,7 @@
 
             <TextView
                 android:id="@+id/tv_correo"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="victoria@gmail.com"
@@ -104,7 +116,7 @@
 
             <TextView
                 android:id="@+id/tv_ejemplar"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Usuario ejemplar"
@@ -115,7 +127,7 @@
 
             <TextView
                 android:id="@+id/tv_felicidades"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="¡Felicidades eres un ejemplo para tus amigos!"
@@ -128,7 +140,7 @@
                 android:id="@+id/boton_cerrar_sesion"
                 android:layout_width="219dp"
                 android:layout_height="33dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/round_button"
                 android:layout_gravity="center"
                 android:text="@string/cerrarSesion"
