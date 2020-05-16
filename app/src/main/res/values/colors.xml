@@ -5,4 +5,6 @@
     <color name="lower_blue">#0B6099</color>
     <color name="light_blue">#29ABE2</color>
     <color name="light_gray">#D3D3D3</color>
+    <color name="green">#82FF6A</color>
+    <color name="red">#FF4747</color>
 </resources>

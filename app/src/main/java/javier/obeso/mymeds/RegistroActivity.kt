@@ -79,7 +79,7 @@ class RegistroActivity : AppCompatActivity() {
     fun registerUser(){
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, contrasenaString).addOnCompleteListener(){
             if (it.isSuccessful){
-                val user = Usuario (usuarioString, emailString, contrasenaString, 0, 0)
+                val user = Usuario (usuarioString, emailString, contrasenaString, 0, 0, 0, 0)
 
                 var id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid()
 

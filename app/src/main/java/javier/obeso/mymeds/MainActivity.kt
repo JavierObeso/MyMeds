@@ -1,37 +1,28 @@
 package javier.obeso.mymeds
 
-import android.app.AlarmManager
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import javier.obeso.mymeds.entidades.Alarma
 import javier.obeso.mymeds.entidades.Medicamento
-import javier.obeso.mymeds.utilities.ReminderBroadcast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alarma_view.view.*
-import java.lang.Math.random
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -50,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     companion object{
         var alarmas = ArrayList<Alarma>()
         var medicamentos = ArrayList<Medicamento>()
+        var horas = ArrayList<String>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,8 +105,7 @@ class MainActivity : AppCompatActivity() {
         val clockButton:ImageButton = findViewById(R.id.fondo_reloj) as ImageButton
 
         profileButton.setOnClickListener(){
-            var intent: Intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
 
         clockButton.setOnClickListener(){
@@ -136,6 +127,8 @@ class MainActivity : AppCompatActivity() {
 
         adaptador = AdaptadorAlarmas(this, alarmas)
         lista.adapter = adaptador
+
+        checaHoras()
     }
 
     private fun createNotificationChannel() {
@@ -174,6 +167,143 @@ class MainActivity : AppCompatActivity() {
             create = false
         }
 
+        checaHoras()
+    }
+
+    fun checaHoras(){
+        val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(object:
+            ValueEventListener {
+            override fun onCancelled(dataBaseError: DatabaseError) {}
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val map = dataSnapshot.value as HashMap<*, *>
+
+                ponerAlarma(map["cantAlarmas"].toString().toInt())
+            }
+        })
+    }
+
+    fun ponerAlarma(cantAlarmas:Int){
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss a")
+        var horaActual = sdf.format(Date())
+        var ampm = horaActual.substring(horaActual.length-2)
+
+        horaActual = horaActual.substring(10, 15)
+
+        var horaActualInt1 = horaActual.substring(0,2)
+        var horaActualInt2 = horaActual.substring(3,5)
+
+        if (ampm.equals("PM",true)){
+            var horaSuma = horaActualInt1.toInt() + 12
+            horaActualInt1 = horaSuma.toString()
+        }
+
+        var horaActualInt = horaActualInt1 + horaActualInt2
+
+        var t = Timer()
+
+        val id:String = FirebaseAuth.getInstance().currentUser!!.uid;
+
+        for (a in 0.. cantAlarmas){
+            var ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(id).child("Alarmas").child(a.toString())
+            ref.addValueEventListener(object:
+                ValueEventListener {
+                override fun onCancelled(dataBaseError: DatabaseError) {}
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        val map = dataSnapshot.value as Map<*,*>
+
+                        val hora = map["hora"].toString()
+                        var horaInt1 = hora.substring(0,2)
+                        var horaInt2 = hora.substring(3,5)
+
+                        var horaInt = horaInt1 + horaInt2
+
+                        if (horaActualInt >= horaInt){
+                            dialogoMedicamentos(map["nombre"].toString(), map["hora"].toString(), a)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    fun dialogoMedicamentos (medicamento:String, hora:String, alarma:Int){
+        val idUser:String = FirebaseAuth.getInstance().currentUser!!.uid;
+        var builder = AlertDialog.Builder(this, R.style.DialogCustomStyle)
+        builder.setTitle("Medicamento")
+        builder.setMessage("¿Se tomó la medicina ($medicamento) de las $hora?")
+        builder.setPositiveButton("Sí") {
+                dialog, id ->
+            checkTomadas(true)
+            var ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(idUser).child("Alarmas").child(alarma.toString())
+            val map = HashMap<String, Any>()
+            map.put("hora", "Tomado")
+            ref.updateChildren(map);
+            dialog.dismiss()
+            reiniciarActivity(this@MainActivity)
+            }
+        builder.setNegativeButton("No"){
+                    dialog, id ->
+                checkTomadas(false)
+                var ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(idUser).child("Alarmas").child(alarma.toString())
+                val map = HashMap<String, Any>()
+                map.put("hora", "No tomado")
+                ref.updateChildren(map);
+                dialog.dismiss()
+                reiniciarActivity(this@MainActivity)
+            }.show()
+    }
+
+    fun checkTomadas (si: Boolean){
+        val id:String = FirebaseAuth.getInstance().currentUser!!.uid;
+
+        FirebaseDatabase.getInstance().reference.child("Users").child(id).addValueEventListener(object:
+            ValueEventListener {
+            override fun onCancelled(dataBaseError: DatabaseError) {}
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val map = dataSnapshot.value as Map<*,*>
+
+                if (si){
+                    val medTomados = map["medicamentosTomados"].toString().toInt()
+                    siTomada(medTomados)
+                } else {
+                    val medNoTomados = map["medicamentosNoTomados"].toString().toInt()
+                    noTomada(medNoTomados)
+                }
+            }
+        })
+    }
+
+    fun siTomada (medTomados:Int){
+        var id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid()
+        var ref:DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(id)
+        val map = HashMap<String, Any>()
+        var newMedTomados:Int = (medTomados + 1)
+        map.put("medicamentosTomados", newMedTomados)
+        ref.updateChildren(map);
+    }
+
+    fun noTomada (medNoTomados:Int){
+        var id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid()
+        var ref:DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(id)
+        val map = HashMap<String, Any>()
+        var newMedNoTomados:Int = (medNoTomados + 1)
+        map.put("medicamentosNoTomados", newMedNoTomados)
+        ref.updateChildren(map);
+    }
+
+    fun reiniciarActivity(actividad: Activity) {
+        val intent = Intent()
+        intent.setClass(actividad, actividad.javaClass)
+        //llamamos a la actividad
+        actividad.startActivity(intent)
+        //finalizamos la actividad actual
+        actividad.finish()
     }
 
     fun cargaAlarmas(){
@@ -315,7 +445,15 @@ class MainActivity : AppCompatActivity() {
         progress.removeAllViews()
         var c = 1
         for (item in alarmas){
-            val circle: View = layoutInflater.inflate(R.layout.circle_view, null)
+            val circle: View
+            if (item.hora.equals("Tomado", true)){
+                circle = layoutInflater.inflate(R.layout.circle_green_view, null)
+            } else if (item.hora.equals("No tomado", true)){
+                alerta_perdida.visibility = View.VISIBLE;
+                circle = layoutInflater.inflate(R.layout.circle_red_view, null)
+            } else {
+                circle = layoutInflater.inflate(R.layout.circle_view, null)
+            }
             val line: View = layoutInflater.inflate(R.layout.line_view, null)
             progress.addView(circle)
             if(c != alarmas.size){
@@ -344,7 +482,11 @@ class MainActivity : AppCompatActivity() {
                 vista.tv_hour.setText(alarma.hora)
             } else {
                 vista.tv_title.setText(alarma.nombre)
-                vista.tv_hour.setText(alarma.hora + " hrs.")
+                if (alarma.hora.equals("Tomado", true) || alarma.hora.equals("No tomado", true)){
+                    vista.tv_hour.setText(alarma.hora)
+                } else {
+                    vista.tv_hour.setText(alarma.hora + " hrs.")
+                }
             }
 
 

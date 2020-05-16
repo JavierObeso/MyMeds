@@ -296,6 +296,8 @@ class registroAlarma : AppCompatActivity() {
                 alarma = Alarma(medicamentoString,frecuenciaString,dosisString,horaString,inicioString,finString, "")
             }
 
+            MainActivity.horas.add(horaString)
+
             mDatabase!!.child("Users").child(id).child("Alarmas").child(cantAlarmas.toString()).setValue(alarma).addOnCompleteListener { task2: Task<Void> ->
                 if (task2.isSuccessful()) {
                     Toast.makeText(this, "Alarma registrada correctamente", Toast.LENGTH_SHORT).show();
@@ -354,7 +356,7 @@ class registroAlarma : AppCompatActivity() {
     }
 
     fun actualizaCantAlarmas (cantAlarmas:Int){
-        var id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
+        var id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid()
         var ref:DatabaseReference = mDatabase!!.child("Users").child(id)
         val map = HashMap<String, Any>()
         var newCantAlarmas:Int = (cantAlarmas + 1)
