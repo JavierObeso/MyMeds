@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
     fun checaHoras(){
         val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
 
-        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(object:
+        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addListenerForSingleValueEvent(object:
             ValueEventListener {
             override fun onCancelled(dataBaseError: DatabaseError) {}
 
@@ -208,7 +208,7 @@ class MainActivity : AppCompatActivity() {
 
         for (a in 0.. cantAlarmas){
             var ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(id).child("Alarmas").child(a.toString())
-            ref.addValueEventListener(object:
+            ref.addListenerForSingleValueEvent(object:
                 ValueEventListener {
                 override fun onCancelled(dataBaseError: DatabaseError) {}
 
@@ -248,20 +248,22 @@ class MainActivity : AppCompatActivity() {
             }
         builder.setNegativeButton("No"){
                     dialog, id ->
-                checkTomadas(false)
-                var ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(idUser).child("Alarmas").child(alarma.toString())
-                val map = HashMap<String, Any>()
-                map.put("hora", "No tomado")
-                ref.updateChildren(map);
-                dialog.dismiss()
-                reiniciarActivity(this@MainActivity)
+            checkTomadas(false)
+            var ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(idUser).child("Alarmas").child(alarma.toString())
+            val map = HashMap<String, Any>()
+            map.put("hora", "No tomado")
+            ref.updateChildren(map);
+            dialog.dismiss()
+            reiniciarActivity(this@MainActivity)
             }.show()
     }
 
     fun checkTomadas (si: Boolean){
         val id:String = FirebaseAuth.getInstance().currentUser!!.uid;
 
-        FirebaseDatabase.getInstance().reference.child("Users").child(id).addValueEventListener(object:
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users").child(id)
+
+        ref.addListenerForSingleValueEvent(object:
             ValueEventListener {
             override fun onCancelled(dataBaseError: DatabaseError) {}
 
@@ -309,7 +311,7 @@ class MainActivity : AppCompatActivity() {
     fun cargaAlarmas(){
         val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
 
-        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(object:
+        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addListenerForSingleValueEvent(object:
             ValueEventListener {
             override fun onCancelled(dataBaseError: DatabaseError) {}
 
@@ -324,7 +326,7 @@ class MainActivity : AppCompatActivity() {
     fun cargaMedicamentos(){
         val id:String = FirebaseAuth.getInstance().getCurrentUser()!!.getUid();
 
-        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(object:
+        FirebaseDatabase.getInstance().getReference().child("Users").child(id).addListenerForSingleValueEvent(object:
             ValueEventListener {
             override fun onCancelled(dataBaseError: DatabaseError) {}
 
@@ -341,7 +343,7 @@ class MainActivity : AppCompatActivity() {
 
         if (cantAlarmas != 0){
             for (i in 0..cantAlarmas){
-                FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Alarmas").child(i.toString()).addValueEventListener(object:
+                FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Alarmas").child(i.toString()).addListenerForSingleValueEvent(object:
                     ValueEventListener {
                     override fun onCancelled(dataBaseError: DatabaseError) {}
 
@@ -374,7 +376,7 @@ class MainActivity : AppCompatActivity() {
 
         if (cantMedicamentos != 0){
             for (i in 0..cantMedicamentos){
-                FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Medicamentos").child(i.toString()).addValueEventListener(object:
+                FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Medicamentos").child(i.toString()).addListenerForSingleValueEvent(object:
                     ValueEventListener {
                     override fun onCancelled(dataBaseError: DatabaseError) {}
 
@@ -442,6 +444,42 @@ class MainActivity : AppCompatActivity() {
      */
 
     fun makeCircles(){
+        if (alarmas.size > 1){
+            var tmp: Alarma
+            var encontrados = 0
+            for (a in 0 until alarmas.size){
+                var hora1Int = "0"
+                for (a2 in 0 until alarmas.size){
+                    var hora2Int = "0"
+                    if (alarmas[a].hora.equals("Tomado", true) || alarmas[a].hora.equals("No tomado", true)){
+                        encontrados ++
+                        hora1Int = encontrados.toString()
+                    } else {
+                        var hora1Int1 = alarmas.get(a).hora.substring(0,2)
+                        var hora1Int2 = alarmas.get(a).hora.substring(3,5)
+
+                        hora1Int = hora1Int1 + hora1Int2
+                    }
+
+                    if (alarmas[a2].hora.equals("Tomado", true) || alarmas[a2].hora.equals("No tomado", true)){
+                        encontrados ++
+                        hora2Int = encontrados.toString()
+                    } else {
+                        var hora2Int1 = alarmas.get(a2).hora.substring(0,2)
+                        var hora2Int2 = alarmas.get(a2).hora.substring(3,5)
+
+                        hora2Int = hora2Int1 + hora2Int2
+                    }
+
+                    if (hora1Int.toInt() < hora2Int.toInt()){
+                        tmp = alarmas.get(a2)
+                        alarmas.set(a2, alarmas.get(a))
+                        alarmas.set(a, tmp)
+                    }
+                }
+            }
+        }
+
         progress.removeAllViews()
         var c = 1
         for (item in alarmas){

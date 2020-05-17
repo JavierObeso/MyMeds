@@ -299,7 +299,7 @@ class registroAlarma : AppCompatActivity() {
             MainActivity.horas.add(horaString)
 
             mDatabase!!.child("Users").child(id).child("Alarmas").child(cantAlarmas.toString()).setValue(alarma).addOnCompleteListener { task2: Task<Void> ->
-                if (task2.isSuccessful()) {
+                if (task2.isSuccessful) {
                     Toast.makeText(this, "Alarma registrada correctamente", Toast.LENGTH_SHORT).show();
                     agendarNotificacion(horaString, inicioString, finString, frecuenciaString)
                 } else {
